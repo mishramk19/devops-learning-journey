@@ -1,0 +1,63 @@
+Docker Architecture – Key Building Blocks (Conceptual + Practical View)
+
+As part of my DevOps upskilling, I revisited container architecture fundamentals with a focus on how Docker components interact at OS and runtime level.
+
+🔹 1️⃣ Container Host / Docker Host
+The Container Host is the underlying machine or OS where containers run.
+
+• Can be physical, virtual, on-prem, or cloud-based
+• Capacity planning depends on expected container density and workload type
+
+Core components:
+✔ Operating System (Linux / Windows)
+✔ Container runtime (Docker Engine, containerd, CRI-O)
+
+🔹 2️⃣ Container Client
+The Docker Client acts as the interface between the user and Docker daemon.
+
+• Executes CLI commands (docker run, docker build, etc.)
+• Communicates with Docker daemon via REST APIs
+• Can be local or remote (client–server architecture)
+
+🔹 3️⃣ Container Images
+Container images are immutable templates used to create containers.
+
+• Contain application binaries, libraries, and configuration files
+• Optimize deployment time by packaging dependencies once
+• Can be community-maintained or custom-built for enterprise use
+
+🔹 4️⃣ Container Registry Server
+Registries store and distribute container images.
+
+Community / Public registries:
+• Docker Hub
+• gcr.io
+• registry.access.redhat.com
+• quay.io
+
+Private / Enterprise registries:
+• Used for internal images, compliance, and security control
+
+🔹 5️⃣ Containers
+A container is a runtime instance of an image.
+
+• Multiple containers can be launched from a single image
+• Lightweight, isolated, and fast to start
+• Ideal for microservices and scalable workloads
+
+🔹 6️⃣ Linux Namespaces (Core Isolation Mechanism)
+Namespaces provide isolation between containers at the kernel level.
+
+• PID – Process isolation
+• NET – Network stack isolation
+• MNT – Filesystem isolation
+• UTS – Hostname isolation
+• IPC – Inter-process communication isolation
+
+👉 This is what allows multiple containers to run securely on the same host.
+
+📌 Understanding these building blocks is critical before moving into Docker networking, volumes, orchestration (Kubernetes), and production-grade deployments.
+
+All notes and hands-on learning are being documented on GitHub as part of a structured DevOps journey.
+
+#Docker #DevOps #Containerization #Linux #CloudInfrastructure #Architecture #ContinuousLearning
