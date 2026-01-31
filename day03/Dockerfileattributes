@@ -1,0 +1,192 @@
+Dockerfile Attributes – Explained (Refined Version)
+1 - Dockerfile Naming
+
+Docker file name should be Dockerfile (Default standard name).
+
+It is case-sensitive (Capital D recommended).
+
+2 - Dockerfile Structure
+
+It consists of Left-hand side instruction (parameter) and Right-hand side value.
+
+Example:
+
+FROM centos:7
+
+FROM
+FROM centos:7
+
+
+It contains Base Image / Raw Image / Parent Image.
+
+It is a mandatory parameter.
+
+Normally written only once.
+
+For Multi-stage build, it can be repeated.
+
+✅ Suggestion:
+Always use official or minimal base images (like alpine, slim images) to reduce size.
+
+LABEL
+
+It is optional.
+
+Used to pass description or metadata about software / image.
+
+Example:
+
+LABEL version="1.0"
+LABEL maintainer="DevOps Team"
+
+
+✅ Suggestion:
+Use labels for version, owner, build date — helpful in enterprise environments.
+
+RUN
+
+Uses:
+
+Used to install software.
+
+Can be used multiple times.
+
+⚠ Note:
+If RUN parameter is used multiple times →
+Each RUN command creates a new image layer → increases image size.
+
+✅ Suggestion (Best Practice):
+Combine commands:
+
+RUN yum update -y && yum install -y nginx
+
+ADD
+
+Use:
+Used to add data into image filesystem.
+
+Supports:
+
+Local machine files
+
+Internet download (HTTP / FTP)
+
+Notes:
+
+Need to use multiple times for multiple files.
+
+File path should be current path or internet URL.
+
+✅ Suggestion:
+Use ADD only when:
+
+Auto extraction needed
+
+Internet download required
+
+Otherwise prefer COPY.
+
+COPY
+
+Uses:
+
+Only local data can be copied.
+
+Does not support internet download.
+
+Does not support auto decompression.
+
+⚠ Correction Added:
+👉 CMD value can be overridden during container creation time.
+
+👉 If CMD comes after ENTRYPOINT →
+It works as default argument which can be changed during container creation.
+
+✅ Suggestion:
+Prefer COPY over ADD (More secure & predictable).
+
+ENV
+
+Use:
+Used for passing variables inside image.
+
+Example:
+
+ENV APP_ENV=prod
+
+
+✅ Suggestion:
+Use ENV for config values, app mode, paths etc.
+
+WORKDIR
+
+Use:
+Changes working directory inside container.
+
+Example:
+
+WORKDIR /app
+
+EXPOSE
+
+Use:
+Helps for documenting container port (Not actual port mapping).
+
+⚠ Correction:
+It does NOT do dynamic port forwarding.
+Actual port mapping happens during:
+
+docker run -p
+
+VOLUME
+
+Use:
+Mount external volume automatically if volume not mentioned while running container.
+
+Example:
+
+VOLUME /data
+
+USER
+
+Use:
+Used for running container with non-privileged user.
+
+👉 Application process starts with specified user instead of root (Security reason).
+
+✅ Suggestion:
+Always try to avoid running containers as root in production.
+
+CMD
+
+Use:
+Triggers command when container starts.
+Used to start service automatically when container is created.
+
+Example:
+
+CMD ["nginx", "-g", "daemon off;"]
+
+
+✅ Can be overridden during container run.
+
+ENTRYPOINT
+
+Use:
+Defines main command of container.
+
+👉 Cannot be easily overridden during container creation.
+👉 Only override possible using --entrypoint.
+
+Example:
+
+ENTRYPOINT ["nginx"]
+
+⭐ Additional Best Practice Suggestions (Added)
+
+✔ Use minimal base image
+✔ Reduce RUN layers
+✔ Use .dockerignore file
+✔ Use non-root USER
+✔ Prefer COPY over ADD
+✔ Use multi-stage build for productionr
